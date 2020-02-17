@@ -24,7 +24,41 @@ int main() {
 	String^ strCommand = "SELECT COUNT (*) FROM tblParticipants";// SQL command
 	SqlCommand^ command = gcnew SqlCommand(strCommand, connection);
 
-	Console::WriteLine(command->ExecuteScalar()); // for single line answer
+	try {
+		int result = Convert::ToInt32(command->ExecuteScalar());
+		//Console::WriteLine(command->ExecuteScalar()); // for single line answer
+		Console::WriteLine(result + " entries"); // for single line answer
+		strCommand = "SELECT TOP (1) Name FROM tblParticipants ORDER BY Name ASC";
+		command->CommandText = strCommand;
+		Console::WriteLine("1st entry: " + command->ExecuteScalar());
+	}
+	catch (Exception ^ ex) {
+		Console::WriteLine("ERROR: command execution failed.\nReason: " + ex->Message);
+		Console::Write("Hit any key");
+		Console::ReadKey();
+		return -1;
+	}
+
+	// examples for class B commands: commands w/o return value
+	strCommand = "UPDATE tblParticipants SET City ='Köln' WHERE Name = 'Wenzel Hilbig' ";
+	strCommand = "DELETE FROM tblParticipants WHERE City = 'Rosenheim' "; // out of Rosenheim
+	//-> executeNonQuery
+
+	// examples for class C commands with multiple results
+	try {
+		strCommand = "SELECT * FROM tblParticipants ORDER BY Name ASC";
+		command->CommandText = strCommand;
+		SqlDataReader^ reader = command->ExecuteReader();
+		while (reader->Read()) {
+			Console::WriteLine(reader["Id"]->ToString() + " " + reader["Name"]->ToString() + " " + reader["City"]->ToString());
+		}
+	}
+	catch (Exception ^ ex) {
+		Console::WriteLine("ERROR: command execution failed.\nReason: " + ex->Message);
+		Console::Write("Hit any key");
+		Console::ReadKey();
+		return -1;
+	}
 
 	connection->Close();
 
