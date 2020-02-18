@@ -1,7 +1,13 @@
+#include "frmMain.h"
 using namespace System;
 using namespace System::Data::SqlClient;
+
+using namespace DBADO;
+
 int main() {
-	Console::WriteLine("Database CLR 17-FEB-2020");
+	frmMain^ window1 = gcnew frmMain;
+
+	Console::WriteLine("Database CLR 17-FEB-2020 to 18-FEB-2020");
 
 	// connection string. remember to escape the backslashes!
 	// NOTE: adapt path for your machine
@@ -72,6 +78,8 @@ int main() {
 
 	Console::Write("Hit any key");
 	Console::ReadKey();
+
+	Application::Run(window1);
 
 	return 0;
 }
