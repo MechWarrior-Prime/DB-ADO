@@ -150,9 +150,8 @@ namespace DBADO {
 			this->PerformLayout();
 		}
 #pragma endregion
-	private: System::Void dataGridView1_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	}
-		   System::Void btnShowData_Click(System::Object^ sender, System::EventArgs^ e);
+
+		System::Void btnShowData_Click(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ filePath = System::IO::Directory::GetCurrentDirectory();
 		String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + filePath + "\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
@@ -167,9 +166,21 @@ namespace DBADO {
 			return;
 		}
 
+		String^ strCommand;
+		SqlCommand^ command;
+
+		if (txtID->Text == "") {
+			strCommand = "SELECT MAX(Id) FROM tblParticipants";
+			unsigned maxid;
+			command = gcnew SqlCommand(strCommand, connection);
+			command->CommandText = strCommand;
+			maxid = Convert::ToUInt32(command->ExecuteScalar());
+			maxid += 1;
+			txtID->Text = maxid.ToString();
+		};
 		//String^ strCommand = "INSERT INTO tblParticipants (Id, Name, City) VALUES (100, 'Wilfied Wetterfest', 'Humbug')";
-		String^ strCommand = "INSERT INTO tblParticipants (Id, Name, City) VALUES (" + txtID->Text + ", '" + txtName->Text + "', '" + txtCity->Text + "')";
-		SqlCommand^ command = gcnew SqlCommand(strCommand, connection);
+		strCommand = "INSERT INTO tblParticipants (Id, Name, City) VALUES (" + txtID->Text + ", '" + txtName->Text + "', '" + txtCity->Text + "')";
+		command = gcnew SqlCommand(strCommand, connection);
 
 		try {
 			command->ExecuteNonQuery();
