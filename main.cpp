@@ -64,6 +64,7 @@ int main() {
 		while (reader->Read()) {
 			Console::WriteLine(reader["Id"]->ToString() + " " + reader["Name"]->ToString() + " " + reader["City"]->ToString());
 		}
+		reader->Close();//IMPORTANT,as the reader has own connection
 	}
 	catch (Exception ^ ex) {
 		Console::WriteLine("ERROR: command execution failed.\nReason: " + ex->Message);

@@ -30,6 +30,7 @@ System::Void DBADO::frmMain::btnShowData_Click(System::Object^ sender, System::E
 		while (reader->Read()) {
 			sb->AppendLine(reader["Id"]->ToString() + " " + reader["Name"]->ToString() + " " + reader["City"]->ToString());
 		}
+		reader->Close();//IMPORTANT,as the reader has own connection
 	}
 	catch (Exception ^ ex) {
 		MessageBox::Show(ex->Message);
