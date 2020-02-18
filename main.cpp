@@ -7,6 +7,9 @@ int main() {
 	// NOTE: adapt path for your machine
 
 	String^ filePath = System::IO::Directory::GetCurrentDirectory();
+
+	//System::IO::File::Copy(filePath + "\\DB-Example.mdf", filePath + "\\DB-Example.mdf.backup");
+
 	//String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Alfa\\Desktop\\VC++\\DB-ADO\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
 	String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + filePath + "\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
 
@@ -64,6 +67,8 @@ int main() {
 	}
 
 	connection->Close();
+	// save disk space
+	//System::IO::File::Delete(filePath + "\\DB-Example.mdf.backup");
 
 	Console::Write("Hit any key");
 	Console::ReadKey();
