@@ -5,7 +5,10 @@ int main() {
 
 	// connection string. remember to escape the backslashes!
 	// NOTE: adapt path for your machine
-	String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Alfa\\Desktop\\VC++\\DB-ADO\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
+
+	String^ filePath = System::IO::Directory::GetCurrentDirectory();
+	//String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Alfa\\Desktop\\VC++\\DB-ADO\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
+	String^ strConn = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=" + filePath + "\\DB-Example.mdf;Integrated Security=True;Connect Timeout=30";
 
 	SqlConnection^ connection = gcnew SqlConnection(strConn);
 
